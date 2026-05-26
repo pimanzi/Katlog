@@ -1,5 +1,6 @@
 import { CalendarDays, Bell, Sun, Moon, Search, Menu } from 'lucide-react'
 import Logo from '@/components/ui/Logo'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 const now = new Date()
 const hour = now.getHours()
@@ -73,9 +74,9 @@ export default function Header({ onMenuToggle }: HeaderProps) {
           <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error border-2 border-card" />
         </button>
 
-        <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-primary-light border-2 border-primary cursor-pointer shrink-0">
-          <span className="text-xs md:text-sm font-semibold text-primary">JD</span>
-        </div>
+        <Avatar className="w-9 h-9 md:w-10 md:h-10 cursor-pointer shrink-0 border-2 border-primary">
+          <AvatarFallback className="bg-primary-light text-primary text-xs md:text-sm font-semibold">JD</AvatarFallback>
+        </Avatar>
 
       </div>
     </header>

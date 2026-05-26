@@ -3,41 +3,56 @@ interface LogoProps {
   size?: number
 }
 
-export default function Logo({ variant = 'dark', size = 36 }: LogoProps) {
-  const fontSize = size * 0.5
+export default function Logo({ variant = 'dark', size = 38 }: LogoProps) {
+  const textColor = variant === 'light' ? '#ffffff' : '#1a1f2e'
 
   return (
-    <div className="flex items-center gap-2.5">
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
 
       {/* Icon mark */}
       <svg
         width={size}
         height={size}
-        viewBox="0 0 36 36"
+        viewBox="0 0 38 38"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <rect width="36" height="36" rx="10" className="fill-primary" />
-        <rect x="9" y="9" width="8" height="7" rx="2" className="fill-white" />
-        <rect x="9" y="20" width="8" height="7" rx="2" className="fill-white" />
-        <rect x="19" y="9" width="8" height="18" rx="2" className="fill-white/25" />
-        <rect x="17" y="13" width="10" height="4" rx="2" className="fill-white" />
-        <rect x="17" y="20" width="10" height="4" rx="2" className="fill-white" />
+        {/* Blue rounded background */}
+        <rect width="38" height="38" rx="10" fill="#3C83F7" />
+
+        {/* Catalogue lines - full width */}
+        <rect x="8" y="8"  width="22" height="3" rx="1.5" fill="white" />
+        <rect x="8" y="14" width="16" height="3" rx="1.5" fill="white" />
+        <rect x="8" y="20" width="19" height="3" rx="1.5" fill="white" />
+        <rect x="8" y="26" width="13" height="3" rx="1.5" fill="white" />
+
+        {/* Faded right extensions */}
+        <rect x="24" y="14" width="6"  height="3" rx="1.5" fill="rgba(255,255,255,0.35)" />
+        <rect x="21" y="20" width="9"  height="3" rx="1.5" fill="rgba(255,255,255,0.35)" />
+        <rect x="17" y="26" width="13" height="3" rx="1.5" fill="rgba(255,255,255,0.35)" />
       </svg>
 
       {/* Wordmark */}
-      <div className="flex items-center" style={{ fontSize, lineHeight: 1 }}>
-        <span
-          className={`font-bold tracking-tight ${variant === 'light' ? 'text-white' : 'text-text'}`}
-          style={{ fontFamily: 'Inter, sans-serif' }}
-        >
-          Brand
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
+        <span style={{
+          fontSize: size * 0.53,
+          fontWeight: 800,
+          color: textColor,
+          letterSpacing: '-0.5px',
+          fontFamily: 'Inter, sans-serif',
+          lineHeight: 1
+        }}>
+          Kat
         </span>
-        <span
-          className="font-bold tracking-tight text-primary"
-          style={{ fontFamily: 'Inter, sans-serif' }}
-        >
-          Hub
+        <span style={{
+          fontSize: size * 0.53,
+          fontWeight: 800,
+          color: '#3C83F7',
+          letterSpacing: '-0.5px',
+          fontFamily: 'Inter, sans-serif',
+          lineHeight: 1
+        }}>
+          log
         </span>
       </div>
 

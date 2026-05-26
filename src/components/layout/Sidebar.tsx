@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { LayoutDashboard, Package, Image, CheckSquare, X } from 'lucide-react'
 import Logo from '@/components/ui/Logo'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/dashboard' },
@@ -66,9 +67,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* User area */}
         <div className="px-4 py-4 border-t border-white/10 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-xs font-semibold shrink-0">
-              JD
-            </div>
+            <Avatar className="w-8 h-8 shrink-0">
+              <AvatarFallback className="bg-primary text-white text-xs font-semibold">JD</AvatarFallback>
+            </Avatar>
             <div className="min-w-0">
               <p className="text-white text-sm font-medium leading-none truncate">James Dylan</p>
               <p className="text-[#94a3c4] text-xs mt-0.5 truncate">Brand Manager</p>
