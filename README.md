@@ -47,8 +47,8 @@ VITE_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
 ## Scripts
 
 ```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run preview  # Preview production build
-npm run lint     # Run ESLint
+npm run dev      
+npm run build    
+npm run preview 
+npm run lint     
 ```

@@ -399,7 +399,7 @@ export const mockAssets: Asset[] = [
     title: 'Silk Scarf Ivory Close Up',
     description: 'Close up of Zara Silk Scarf in Ivory showing texture and print.',
     status: 'rejected',
-    url: 'https://images.unsplash.com/photo-1520903920263-00d872a2d1c9?w=800',
+    url: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800',
     tags: ['ivory', 'close-up'],
     rejectionReason: 'Image is overexposed, colors are washed out.',
     uploadedAt: '2026-02-22T10:00:00Z',
