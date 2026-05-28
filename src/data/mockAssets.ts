@@ -614,7 +614,7 @@ export const mockAssets: Asset[] = [
     title: 'J&J Knit Hoodie Hero Shot',
     description: 'Main hero shot of Jack&Jones Knit Hoodie on white background.',
     status: 'pending_review',
-    url: 'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=800',
+    url: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800',
     tags: ['hero', 'hoodie', 'white-background'],
     uploadedAt: '2024-02-26T10:00:00Z',
     statusHistory: [

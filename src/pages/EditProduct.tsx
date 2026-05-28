@@ -1,247 +1,342 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useMemo } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Save } from 'lucide-react'
+import { useForm, useWatch, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useProduct, useUpdateProduct } from '@/hooks/products'
+import { useVariants } from '@/hooks/variants'
+import { useProductAssets } from '@/hooks/assets'
+import { calculateReadiness, type ReadinessResult } from '@/utils/calculateReadiness'
+import { mockBrands } from '@/data/mockBrands'
+import { mockCategories } from '@/data/mockCategories'
+import type { Season, TargetMarket, ProductStatus, ProductWithRelations } from '@/types/product.types'
+import type { Variant } from '@/types/variant.types'
+import type { Asset } from '@/types/asset.types'
 
-// Dummy data for editing
-const dummyProduct = {
-  name: 'Air Max 90',
-  productCode: 'AM90-001',
-  brand: 'nike',
-  category: 'footwear',
-  status: 'published',
-  description: 'The Nike Air Max 90 stays true to its OG running roots with the iconic Waffle sole, stitched overlays and classic TPU accents. Classic colors celebrate your fresh look while Max Air cushioning adds comfort to the journey.',
-  targetMarket: 'unisex',
-  season: 'summer-2024',
+const schema = z.object({
+  name: z.string().min(1, 'Product name is required').min(3, 'Name must be at least 3 characters'),
+  productCode: z.string().min(1, 'Product code is required'),
+  brandId: z.string().min(1, 'Please select a brand'),
+  categoryId: z.string().min(1, 'Please select a category'),
+  description: z.string().min(1, 'Description is required').min(10, 'Description must be at least 10 characters'),
+  targetMarket: z.array(z.string()).min(1, 'Select at least one target market'),
+  season: z.string().min(1, 'Please select a season'),
+  status: z.string().min(1, 'Please select a status'),
+})
+
+type FormValues = z.infer<typeof schema>
+
+const TARGET_MARKETS: TargetMarket[] = ['Men', 'Women', 'Boys', 'Girls', 'Unisex', 'Adults', 'All']
+const SEASONS: Season[] = ['Spring', 'Summer', 'Autumn', 'Winter']
+
+const STATUS_LABELS: Record<ProductStatus, string> = {
+  draft: 'Draft',
+  review: 'In Review',
+  published: 'Published',
+  archived: 'Archived',
 }
 
-export default function EditProduct() {
-  const navigate = useNavigate()
-  const [formData, setFormData] = useState(dummyProduct)
+interface EditFormProps {
+  product: ProductWithRelations
+  variants: Variant[]
+  assets: Asset[]
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Form submitted:', formData)
-    // TODO: Add API call to update product
-    navigate('/products')
+function EditProductForm({ product, variants, assets }: EditFormProps) {
+  const navigate = useNavigate()
+  const updateProduct = useUpdateProduct()
+
+  const readiness: ReadinessResult = useMemo(
+    () => calculateReadiness(product, variants, assets),
+    [product, variants, assets]
+  )
+
+  const availableStatuses = useMemo<ProductStatus[]>(() => {
+    const statuses = new Set<ProductStatus>(['draft', product.status])
+    if (readiness.canSubmitForReview) statuses.add('review')
+    if (readiness.canPublish) statuses.add('published')
+    if (product.status === 'published' || product.status === 'archived') statuses.add('archived')
+    return Array.from(statuses)
+  }, [product.status, readiness])
+
+  const { register, handleSubmit, control, setValue, formState: { errors } } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: product.name,
+      productCode: product.productCode,
+      brandId: String(product.brand.id),
+      categoryId: String(product.category.id),
+      description: product.description,
+      targetMarket: product.targetMarket,
+      season: product.season,
+      status: product.status,
+    },
+  })
+
+  const selectedMarkets = useWatch({ control, name: 'targetMarket' }) ?? []
+
+  const toggleMarket = (market: TargetMarket) => {
+    const updated = selectedMarkets.includes(market)
+      ? selectedMarkets.filter(m => m !== market)
+      : [...selectedMarkets, market]
+    setValue('targetMarket', updated, { shouldValidate: true })
   }
 
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
+  const onSubmit = (data: FormValues) => {
+    updateProduct.mutate(
+      {
+        id: product.id,
+        data: {
+          name: data.name,
+          productCode: data.productCode,
+          brandId: parseInt(data.brandId),
+          categoryId: parseInt(data.categoryId),
+          description: data.description,
+          targetMarket: data.targetMarket as TargetMarket[],
+          season: data.season as Season,
+          status: data.status as ProductStatus,
+        },
+      },
+      { onSuccess: () => navigate('/products') }
+    )
+  }
+
+  const readinessHint =
+    readiness.percentage < 75
+      ? `Readiness at ${readiness.percentage}%. Add variants and approved assets to unlock "In Review".`
+      : readiness.percentage < 100
+      ? `Readiness at ${readiness.percentage}%. Get all assets approved to unlock "Published".`
+      : 'Product is fully ready. All statuses are unlocked.'
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Basic Information</CardTitle>
+          <CardDescription>Required fields for the product</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="name">Product Name <span className="text-error">*</span></Label>
+            <Input id="name" placeholder="e.g. Nike Air Max 2026" {...register('name')} />
+            {errors.name && <p className="text-xs text-error">{errors.name.message}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="productCode">Product Code <span className="text-error">*</span></Label>
+            <Input id="productCode" placeholder="e.g. NK-AM-2026" {...register('productCode')} />
+            {errors.productCode && <p className="text-xs text-error">{errors.productCode.message}</p>}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="brand">Brand <span className="text-error">*</span></Label>
+              <Controller
+                name="brandId"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger id="brand">
+                      <SelectValue placeholder="Select brand" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {mockBrands.map(b => (
+                        <SelectItem key={b.id} value={String(b.id)}>{b.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.brandId && <p className="text-xs text-error">{errors.brandId.message}</p>}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="category">Category <span className="text-error">*</span></Label>
+              <Controller
+                name="categoryId"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger id="category">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {mockCategories.map(c => (
+                        <SelectItem key={c.id} value={String(c.id)}>{c.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.categoryId && <p className="text-xs text-error">{errors.categoryId.message}</p>}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Additional Details</CardTitle>
+          <CardDescription>Required product details</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="description">Description <span className="text-error">*</span></Label>
+            <Textarea id="description" placeholder="Enter product description..." rows={4} {...register('description')} />
+            {errors.description && <p className="text-xs text-error">{errors.description.message}</p>}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label>Target Market <span className="text-error">*</span></Label>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {TARGET_MARKETS.map(market => (
+                  <button
+                    key={market}
+                    type="button"
+                    onClick={() => toggleMarket(market)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                      selectedMarkets.includes(market)
+                        ? 'bg-primary text-white border-primary'
+                        : 'bg-transparent text-text-muted border-border hover:border-primary hover:text-primary'
+                    }`}
+                  >
+                    {market}
+                  </button>
+                ))}
+              </div>
+              {errors.targetMarket && <p className="text-xs text-error">{errors.targetMarket.message}</p>}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="season">Season <span className="text-error">*</span></Label>
+              <Controller
+                name="season"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger id="season">
+                      <SelectValue placeholder="Select season" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SEASONS.map(s => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.season && <p className="text-xs text-error">{errors.season.message}</p>}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Status</CardTitle>
+          <CardDescription>Control the visibility and lifecycle of this product</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <Controller
+            name="status"
+            control={control}
+            render={({ field }) => (
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger id="status">
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableStatuses.map(s => (
+                    <SelectItem key={s} value={s}>{STATUS_LABELS[s]}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
+          {errors.status && <p className="text-xs text-error">{errors.status.message}</p>}
+          <p className="text-xs text-text-muted">{readinessHint}</p>
+        </CardContent>
+      </Card>
+
+      <div className="flex items-center justify-end gap-3 pb-2">
+        <Button type="button" variant="outline" onClick={() => navigate('/products')}>
+          Cancel
+        </Button>
+        <Button type="submit" disabled={updateProduct.isPending}>
+          <Save size={16} />
+          {updateProduct.isPending ? 'Saving...' : 'Save Changes'}
+        </Button>
+      </div>
+    </form>
+  )
+}
+
+//handles loading and not-found
+
+export default function EditProduct() {
+  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
+
+  const { data: product, isLoading } = useProduct(id!)
+  const { data: variants = [] } = useVariants(id!)
+  const { data: assets = [] } = useProductAssets(id!)
+
+  if (isLoading) {
+    return (
+      <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+        <div className="flex items-center gap-4">
+          <Skeleton className="h-8 w-8 rounded-md" />
+          <div className="space-y-2">
+            <Skeleton className="h-6 w-40" />
+            <Skeleton className="h-4 w-56" />
+          </div>
+        </div>
+        <Card>
+          <CardContent className="p-6 space-y-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Skeleton key={i} className="h-10 w-full" />
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  if (!product) {
+    return (
+      <div className="p-4 sm:p-6">
+        <p className="text-sm text-text-muted">Product not found.</p>
+      </div>
+    )
   }
 
   return (
     <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-4">
         <Button
           variant="ghost"
           size="icon-sm"
           onClick={() => navigate('/products')}
-          className="shrink-0"
+          className="shrink-0 text-primary hover:text-primary hover:bg-primary/10"
         >
           <ArrowLeft size={18} />
         </Button>
         <div>
           <h1 className="text-2xl font-bold text-text">Edit Product</h1>
-          <p className="text-sm text-text-muted mt-1">
-            Update product information
-          </p>
+          <p className="text-sm text-text-muted mt-1">Update product information</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Required Fields */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Basic Information</CardTitle>
-            <CardDescription>Required fields for product creation</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Product Name */}
-            <div className="space-y-2">
-              <Label htmlFor="name">
-                Product Name <span className="text-error">*</span>
-              </Label>
-              <Input
-                id="name"
-                placeholder="e.g. Nike Air Max 2024"
-                value={formData.name}
-                onChange={(e) => handleChange('name', e.target.value)}
-                required
-              />
-            </div>
-
-            {/* Product Code */}
-            <div className="space-y-2">
-              <Label htmlFor="productCode">
-                Product Code <span className="text-error">*</span>
-              </Label>
-              <Input
-                id="productCode"
-                placeholder="e.g. NK-AM-2024"
-                value={formData.productCode}
-                onChange={(e) => handleChange('productCode', e.target.value)}
-                required
-              />
-            </div>
-
-            {/* Brand & Category - Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Brand */}
-              <div className="space-y-2">
-                <Label htmlFor="brand">
-                  Brand <span className="text-error">*</span>
-                </Label>
-                <Select
-                  value={formData.brand}
-                  onValueChange={(value) => handleChange('brand', value)}
-                  required
-                >
-                  <SelectTrigger id="brand">
-                    <SelectValue placeholder="Select brand" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="nike">Nike</SelectItem>
-                    <SelectItem value="adidas">Adidas</SelectItem>
-                    <SelectItem value="puma">Puma</SelectItem>
-                    <SelectItem value="reebok">Reebok</SelectItem>
-                    <SelectItem value="under-armour">Under Armour</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Category */}
-              <div className="space-y-2">
-                <Label htmlFor="category">
-                  Category <span className="text-error">*</span>
-                </Label>
-                <Select
-                  value={formData.category}
-                  onValueChange={(value) => handleChange('category', value)}
-                  required
-                >
-                  <SelectTrigger id="category">
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="footwear">Footwear</SelectItem>
-                    <SelectItem value="apparel">Apparel</SelectItem>
-                    <SelectItem value="accessories">Accessories</SelectItem>
-                    <SelectItem value="equipment">Equipment</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* Status */}
-            <div className="space-y-2">
-              <Label htmlFor="status">
-                Status <span className="text-error">*</span>
-              </Label>
-              <Select
-                value={formData.status}
-                onValueChange={(value) => handleChange('status', value)}
-                required
-              >
-                <SelectTrigger id="status">
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="draft">Draft</SelectItem>
-                  <SelectItem value="review">Review</SelectItem>
-                  <SelectItem value="published">Published</SelectItem>
-                  <SelectItem value="archived">Archived</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Optional Fields */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Additional Details</CardTitle>
-            <CardDescription>Optional information to enhance your product</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Description */}
-            <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                placeholder="Enter product description..."
-                value={formData.description}
-                onChange={(e) => handleChange('description', e.target.value)}
-                rows={4}
-              />
-            </div>
-
-            {/* Target Market & Season - Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Target Market */}
-              <div className="space-y-2">
-                <Label htmlFor="targetMarket">Target Market</Label>
-                <Select
-                  value={formData.targetMarket}
-                  onValueChange={(value) => handleChange('targetMarket', value)}
-                >
-                  <SelectTrigger id="targetMarket">
-                    <SelectValue placeholder="Select target market" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="men">Men</SelectItem>
-                    <SelectItem value="women">Women</SelectItem>
-                    <SelectItem value="kids">Kids</SelectItem>
-                    <SelectItem value="unisex">Unisex</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Season */}
-              <div className="space-y-2">
-                <Label htmlFor="season">Season</Label>
-                <Select
-                  value={formData.season}
-                  onValueChange={(value) => handleChange('season', value)}
-                >
-                  <SelectTrigger id="season">
-                    <SelectValue placeholder="Select season" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="spring-2024">Spring 2024</SelectItem>
-                    <SelectItem value="summer-2024">Summer 2024</SelectItem>
-                    <SelectItem value="fall-2024">Fall 2024</SelectItem>
-                    <SelectItem value="winter-2024">Winter 2024</SelectItem>
-                    <SelectItem value="spring-2025">Spring 2025</SelectItem>
-                    <SelectItem value="summer-2025">Summer 2025</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Actions */}
-        <div className="flex items-center justify-end gap-3">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => navigate('/products')}
-          >
-            Cancel
-          </Button>
-          <Button type="submit">
-            <Save size={16} />
-            Save Changes
-          </Button>
-        </div>
-      </form>
+      <EditProductForm product={product} variants={variants} assets={assets} />
     </div>
   )
 }

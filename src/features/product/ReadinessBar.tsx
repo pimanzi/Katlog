@@ -1,7 +1,7 @@
 function getReadinessColor(percentage: number): string {
   if (percentage === 100) return '#22c55e'
-  if (percentage >= 75) return '#3C83F7'
-  if (percentage >= 41) return '#f59e0b'
+  if (percentage >= 75)   return '#3C83F7'
+  if (percentage >= 45)   return '#f59e0b'
   return '#ef4444'
 }
 
