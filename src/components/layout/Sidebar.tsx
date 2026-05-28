@@ -1,13 +1,23 @@
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Package, Image, CheckSquare, X } from 'lucide-react'
+import { LayoutDashboard, Package, Image, X, ChevronDown, Plus, List } from 'lucide-react'
 import Logo from '@/components/ui/Logo'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/dashboard' },
-  { label: 'Products', icon: Package, to: '/products' },
+  { 
+    label: 'Products', 
+    icon: Package, 
+    to: '/products',
+    subItems: [
+      { label: 'All Products', to: '/products', icon: List },
+      { label: 'Create Product', to: '/products/create', icon: Plus },
+    ]
+  },
   { label: 'Assets', icon: Image, to: '/assets' },
-  { label: 'Review Queue', icon: CheckSquare, to: '/review-queue' },
+
 ]
 
 interface SidebarProps {
@@ -16,6 +26,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const [openProducts, setOpenProducts] = useState(true)
   return (
     <>
       {/* Mobile backdrop */}
@@ -45,23 +56,80 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         {/* Nav */}
         <nav className="flex flex-col gap-1 px-3 pt-4 flex-1 overflow-y-auto">
-          {navItems.map(({ label, icon: Icon, to }) => (
-            <NavLink
-              key={to}
-              to={to}
-              onClick={onClose}
-              className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-primary text-white'
-                    : 'text-[#94a3c4] hover:bg-white/5 hover:text-white'
-                }`
-              }
-            >
-              <Icon size={18} />
-              {label}
-            </NavLink>
-          ))}
+          {navItems.map((item) => {
+            const Icon = item.icon
+            const hasSubItems = item.subItems && item.subItems.length > 0
+
+            if (hasSubItems) {
+              return (
+                <Collapsible
+                  key={item.to}
+                  open={openProducts}
+                  onOpenChange={setOpenProducts}
+                >
+                  <CollapsibleTrigger className="w-full">
+                    <div
+                      className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-[#94a3c4] hover:bg-white/5 hover:text-white"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon size={18} />
+                        {item.label}
+                      </div>
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-200 ${
+                          openProducts ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </div>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="mt-1">
+                    <div className="flex flex-col gap-1 ml-6">
+                      {item.subItems.map((subItem) => {
+                        const SubIcon = subItem.icon
+                        return (
+                          <NavLink
+                            key={subItem.to}
+                            to={subItem.to}
+                            onClick={onClose}
+                            end
+                            className={({ isActive }) =>
+                              `flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                isActive
+                                  ? 'bg-primary text-white'
+                                  : 'text-[#94a3c4] hover:bg-white/5 hover:text-white'
+                              }`
+                            }
+                          >
+                            {SubIcon && <SubIcon size={14} />}
+                            {subItem.label}
+                          </NavLink>
+                        )
+                      })}
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+              )
+            }
+
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                onClick={onClose}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-primary text-white'
+                      : 'text-[#94a3c4] hover:bg-white/5 hover:text-white'
+                  }`
+                }
+              >
+                <Icon size={18} />
+                {item.label}
+              </NavLink>
+            )
+          })}
         </nav>
 
         {/* User area */}

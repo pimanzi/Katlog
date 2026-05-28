@@ -1,69 +1,108 @@
-import { Image as ImageIcon, Clock, ArrowRight, CheckCircle2, XCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { useNavigate } from 'react-router-dom'
+import { ArrowRight, FileText, Video, Box, ImageIcon, Clock } from 'lucide-react'
+import { Card, CardHeader, CardTitle, CardAction, CardContent } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+import type { AssetType } from '@/types/asset.types'
 
-const reviewItems = [
-  { file: 'product-hero.jpg',  product: 'Nike Air Max',  waiting: '2h', urgent: true  },
-  { file: 'variant-blue.png',  product: 'Adidas Samba',  waiting: '4h', urgent: false },
-  { file: 'lookbook-2024.pdf', product: 'Summer Coll.',  waiting: '6h', urgent: false },
-]
+export interface ReviewQueueItem {
+  id:        string
+  file:      string
+  product:   string
+  waiting:   string
+  urgent:    boolean
+  url:       string
+  assetType: AssetType
+}
 
-export default function ReviewQueue() {
+const ICON_MAP: Record<AssetType, { icon: typeof ImageIcon; color: string; bg: string }> = {
+  image:    { icon: ImageIcon, color: '#3C83F7', bg: '#e8f0fe' },
+  video:    { icon: Video,     color: '#ef4444', bg: '#fee2e2' },
+  document: { icon: FileText,  color: '#22c55e', bg: '#dcfce7' },
+  '3d':     { icon: Box,       color: '#f59e0b', bg: '#fef3c7' },
+}
+
+interface Props {
+  items:        ReviewQueueItem[]
+  totalPending: number
+  isLoading:    boolean
+}
+
+export default function ReviewQueue({ items, totalPending, isLoading }: Props) {
+  const navigate = useNavigate()
+
+  if (isLoading) {
+    return (
+      <Card size="sm">
+        <CardContent>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <Skeleton key={i} className="aspect-square rounded-xl" />
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card size="sm">
-      <CardContent>
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <p className="text-[13px] font-semibold text-text">Review queue</p>
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-warning-light text-warning-text text-[10px] font-semibold">
-              7 pending
-            </span>
-          </div>
-          <button className="flex items-center gap-1 text-[11px] font-medium text-primary hover:text-primary-dark transition-colors">
+      <CardHeader>
+        <div className="flex items-center gap-2">
+          <CardTitle className="text-base!">Review queue</CardTitle>
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-warning-light text-warning-text text-[10px] font-semibold">
+            {totalPending} pending
+          </span>
+        </div>
+        <CardAction>
+          <button
+            onClick={() => navigate('/review')}
+            className="flex items-center gap-1 text-[11px] font-medium text-primary hover:text-primary-dark transition-colors"
+          >
             View all <ArrowRight size={12} />
           </button>
-        </div>
+        </CardAction>
+      </CardHeader>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {reviewItems.map(item => (
-            <div key={item.file} className="flex flex-col gap-3 p-3 rounded-xl border border-border bg-bg">
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex items-center gap-2 min-w-0">
-                  <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-light shrink-0">
-                    <ImageIcon size={14} className="text-primary" />
+      <CardContent>
+        {items.length === 0 ? (
+          <p className="text-xs text-text-muted text-center py-6">No assets pending review.</p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {items.map(item => {
+              const { icon: Icon, color, bg } = ICON_MAP[item.assetType]
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => navigate(`/assets/${item.id}`)}
+                  className="flex flex-col rounded-xl border border-border bg-card overflow-hidden hover:shadow-sm transition-shadow text-left"
+                >
+                  <div className="aspect-video bg-muted flex items-center justify-center overflow-hidden">
+                    {item.assetType === 'image' ? (
+                      <img src={item.url} alt={item.file} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: bg }}>
+                        <Icon size={18} style={{ color }} />
+                      </div>
+                    )}
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-[12px] font-medium text-text truncate">{item.file}</p>
+                  <div className="p-2 space-y-1">
+                    <p className="text-[11px] font-medium text-text truncate">{item.file}</p>
                     <p className="text-[10px] text-text-muted truncate">{item.product}</p>
+                    <div className="flex items-center gap-1">
+                      <Clock size={9} className="text-text-muted shrink-0" />
+                      <span className="text-[10px] text-text-muted">{item.waiting}</span>
+                      {item.urgent && (
+                        <span className="ml-auto text-[9px] font-semibold text-error-text bg-error-light px-1.5 py-0.5 rounded-full">
+                          Urgent
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold shrink-0 ${
-                  item.urgent ? 'bg-error-light text-error-text' : 'bg-draft-light text-draft'
-                }`}>
-                  {item.urgent ? 'Urgent' : 'Normal'}
-                </span>
-              </div>
-              <div className="flex items-center gap-1 text-[10px] text-text-muted">
-                <Clock size={10} className="shrink-0" />
-                <span>Waiting {item.waiting}</span>
-              </div>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="flex-1 h-7 text-[11px] gap-1 border-success text-success-text hover:bg-success-light hover:text-success-text">
-                  <CheckCircle2 size={12} /> Approve
-                </Button>
-                <Button variant="outline" size="sm" className="flex-1 h-7 text-[11px] gap-1 border-error text-error-text hover:bg-error-light hover:text-error-text">
-                  <XCircle size={12} /> Reject
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex justify-center mt-4">
-          <Button className="bg-primary hover:bg-primary-dark text-white text-[12px] h-9 px-6 gap-1.5">
-            Go to full review queue <ArrowRight size={13} />
-          </Button>
-        </div>
+                </button>
+              )
+            })}
+          </div>
+        )}
       </CardContent>
     </Card>
   )
