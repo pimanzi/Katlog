@@ -54,7 +54,7 @@ export function AssetCardWithActions({ asset }: { asset: Asset }) {
         onClick={() => navigate(`/assets/${asset.id}`)}
         className="relative cursor-pointer rounded-xl border border-border bg-card overflow-hidden hover:shadow-sm transition-shadow"
       >
-        {/* Three-dot menu — stop propagation so card click doesn't fire */}
+     
         <div className="absolute top-2 right-2 z-10" onClick={e => e.stopPropagation()}>
           <Popover open={popover} onOpenChange={setPopover}>
             <PopoverTrigger asChild>

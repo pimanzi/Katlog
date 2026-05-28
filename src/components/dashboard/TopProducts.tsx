@@ -1,27 +1,28 @@
-import { MoreHorizontal } from 'lucide-react'
-import { Card, CardHeader, CardTitle, CardAction, CardContent } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 
-const topProducts = [
-  { name: 'Nike Air Max 2024', variants: 12, pct: 100 },
-  { name: 'Adidas Samba OG',   variants: 9,  pct: 75  },
-  { name: 'Zara Summer Dress', variants: 7,  pct: 58  },
-  { name: 'H&M Linen Shirt',   variants: 5,  pct: 42  },
-]
+interface TopProduct {
+  name:     string
+  variants: number
+  pct:      number
+}
 
-export default function TopProducts() {
+interface Props {
+  products:  TopProduct[]
+  isLoading: boolean
+}
+
+export default function TopProducts({ products, isLoading }: Props) {
+  if (isLoading) return <Skeleton className="h-48 rounded-xl" />
+
   return (
     <Card size="sm">
       <CardHeader>
-        <CardTitle>Top by variants</CardTitle>
-        <CardAction>
-          <button className="text-text-muted hover:text-text transition-colors">
-            <MoreHorizontal size={15} />
-          </button>
-        </CardAction>
+        <CardTitle className="text-base!">Top by variants</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-3">
-          {topProducts.map((p, i) => (
+          {products.map((p, i) => (
             <div key={p.name} className="flex items-center gap-2">
               <span className="flex items-center justify-center w-5 h-5 rounded bg-primary-light text-primary text-[10px] font-bold shrink-0">
                 {i + 1}
@@ -37,6 +38,9 @@ export default function TopProducts() {
               </div>
             </div>
           ))}
+          {products.length === 0 && (
+            <p className="text-xs text-text-muted text-center py-3">No products yet.</p>
+          )}
         </div>
       </CardContent>
     </Card>

@@ -116,7 +116,6 @@ export default function AssetLibrary() {
 
   return (
     <div className="p-4 sm:p-6 space-y-5">
-      {/* Header */}
       <div className="flex items-center gap-3">
         <h1 className="text-xl font-bold text-text">Asset Library</h1>
         {!isLoadingAssets && (
@@ -126,7 +125,6 @@ export default function AssetLibrary() {
         )}
       </div>
 
-      {/* Filters */}
       <Card className="rounded-xl">
         <CardContent className="pt-4">
           <AssetFilters
@@ -146,7 +144,6 @@ export default function AssetLibrary() {
         </CardContent>
       </Card>
 
-      {/* Grid */}
       <Card className="rounded-xl">
         <CardHeader className="pb-3">
           <CardTitle className="text-base">
@@ -180,8 +177,7 @@ export default function AssetLibrary() {
           )}
         </CardContent>
       </Card>
-
-      {/* Pagination */}
+      
       {totalPages > 1 && (
         <div className="flex items-center justify-between px-1 text-sm">
           <span className="text-xs text-text-muted">

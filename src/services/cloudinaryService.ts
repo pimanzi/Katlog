@@ -38,6 +38,6 @@ export async function uploadFile(file: File, folder: string): Promise<Cloudinary
     }
   } catch (error) {
     if (error instanceof Error) throw error
-    throw new Error('Network error. Check your connection.')
+    throw new Error('Network error. Check your connection.', { cause: error })
   }
 }

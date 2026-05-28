@@ -6,6 +6,11 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 export const variantService = {
 
+  findAll: async (): Promise<Variant[]> => {
+    await delay(400)
+    return [...mockVariants]
+  },
+
   findByProduct: async (productId: string): Promise<Variant[]> => {
     await delay(600)
     return mockVariants.filter(v => v.productId === productId)

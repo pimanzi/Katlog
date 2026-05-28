@@ -78,7 +78,6 @@ function VariantAssetGroup({ productId, variant }: GroupProps) {
           </div>
         )}
 
-        {/* Full-width upload button on mobile */}
         <Button className="w-full sm:hidden" onClick={() => setModalOpen(true)}>
           <Plus size={13} /> Upload Asset
         </Button>

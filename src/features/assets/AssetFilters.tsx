@@ -32,7 +32,6 @@ export function AssetFilters({
 }: AssetFiltersProps) {
   return (
     <div className="space-y-3">
-      {/* Smart search: scope dropdown + text input */}
       <div className="flex rounded-lg border border-border bg-card overflow-hidden focus-within:border-primary focus-within:ring-3 focus-within:ring-primary/20 transition-shadow">
         <Select value={scope} onValueChange={v => onScopeChange(v as SearchScope)}>
           <SelectTrigger
@@ -59,8 +58,7 @@ export function AssetFilters({
           />
         </div>
       </div>
-
-      {/* Secondary filters */}
+      
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
         <Select value={type} onValueChange={onTypeChange}>
           <SelectTrigger size="sm" className="w-full">

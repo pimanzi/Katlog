@@ -1,7 +1,5 @@
 import type { Product } from '@/types/product.types'
 
-// Spring×5: 3,4,7,10,12 | Summer×5: 1,2,5,8,13 | Autumn×5: 9,11,14,15,17 | Winter×5: 6,16,18,19,20
-
 export const mockProducts: Product[] = [
   {
     id: "1",

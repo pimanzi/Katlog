@@ -6,30 +6,30 @@ export const mockAssets: Asset[] = [
     id: "1",
     productId: "1",
     assetType: 'image',
-    title: 'Nike Air Max 2024 Hero Shot',
-    description: 'Main hero shot of Nike Air Max 2024 on white background for catalogue use.',
+    title: 'Nike Air Max 2026 Hero Shot',
+    description: 'Main hero shot of Nike Air Max 2026 on white background for catalogue use.',
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
     tags: ['hero', 'white-background', 'catalogue'],
-    uploadedAt: '2024-01-16T10:00:00Z',
+    uploadedAt: '2026-01-16T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-16T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-17T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-16T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-17T09:00:00Z' }
     ]
   },
   {
     id: "2",
     productId: "1",
     assetType: 'image',
-    title: 'Nike Air Max 2024 Lifestyle Shot',
-    description: 'Lifestyle shot of Nike Air Max 2024 worn outdoors for social media use.',
+    title: 'Nike Air Max 2026 Lifestyle Shot',
+    description: 'Lifestyle shot of Nike Air Max 2026 worn outdoors for social media use.',
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800',
     tags: ['lifestyle', 'outdoor', 'social-media'],
-    uploadedAt: '2024-01-16T11:00:00Z',
+    uploadedAt: '2026-01-16T11:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-16T11:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-17T09:30:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-16T11:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-17T09:30:00Z' }
     ]
   },
   {
@@ -38,14 +38,14 @@ export const mockAssets: Asset[] = [
     variantId: "1",
     assetType: 'image',
     title: 'Air Max Black EU40 Front View',
-    description: 'Front view of Nike Air Max 2024 in Black colorway size EU 40.',
+    description: 'Front view of Nike Air Max 2026 in Black colorway size EU 40.',
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800',
     tags: ['black', 'front-view', 'variant'],
-    uploadedAt: '2024-01-17T10:00:00Z',
+    uploadedAt: '2026-01-17T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-17T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-18T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-17T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-18T09:00:00Z' }
     ]
   },
   {
@@ -54,34 +54,31 @@ export const mockAssets: Asset[] = [
     variantId: "3",
     assetType: 'image',
     title: 'Air Max White EU40 Front View',
-    description: 'Front view of Nike Air Max 2024 in White colorway size EU 40.',
+    description: 'Front view of Nike Air Max 2026 in White colorway size EU 40.',
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=800',
     tags: ['white', 'front-view', 'variant'],
-    uploadedAt: '2024-01-18T10:00:00Z',
+    uploadedAt: '2026-01-18T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-18T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-18T10:00:00Z' }
     ]
   },
   {
     id: "5",
     productId: "1",
     assetType: 'document',
-    title: 'Nike Air Max 2024 Spec Sheet',
+    title: 'Nike Air Max 2026 Spec Sheet',
     description: 'Technical specification sheet including materials, dimensions and care instructions.',
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800',
     tags: ['spec-sheet', 'technical'],
-    uploadedAt: '2024-01-16T12:00:00Z',
+    uploadedAt: '2026-01-16T12:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-16T12:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-17T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-16T12:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-17T10:00:00Z' }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 2 — Nike Dri-FIT Tee (published)
-  // ─────────────────────────────────────────
   {
     id: "6",
     productId: "2",
@@ -91,10 +88,10 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800',
     tags: ['hero', 'white-background'],
-    uploadedAt: '2024-01-21T10:00:00Z',
+    uploadedAt: '2026-01-21T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-21T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-22T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-21T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-22T09:00:00Z' }
     ]
   },
   {
@@ -108,12 +105,12 @@ export const mockAssets: Asset[] = [
     url: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800',
     tags: ['black', 'front-view'],
     rejectionReason: 'Image is blurry and does not meet quality standards.',
-    uploadedAt: '2024-01-22T10:00:00Z',
+    uploadedAt: '2026-01-22T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-22T10:00:00Z' },
+      { status: 'pending_review', changedAt: '2026-01-22T10:00:00Z' },
       {
         status: 'rejected',
-        changedAt: '2024-01-23T09:00:00Z',
+        changedAt: '2026-01-23T09:00:00Z',
         reason: 'Image is blurry and does not meet quality standards.'
       }
     ]
@@ -128,16 +125,14 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800',
     tags: ['black', 'front-view'],
-    uploadedAt: '2024-01-22T11:00:00Z',
+    uploadedAt: '2026-01-22T11:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-22T11:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-23T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-22T11:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-23T10:00:00Z' }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 3 — Nike Pro Leggings (review)
-  // ─────────────────────────────────────────
+  
   {
     id: "9",
     productId: "3",
@@ -147,9 +142,9 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800',
     tags: ['hero', 'white-background'],
-    uploadedAt: '2024-02-02T10:00:00Z',
+    uploadedAt: '2026-02-02T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-02T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-02T10:00:00Z' }
     ]
   },
   {
@@ -162,15 +157,13 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800',
     tags: ['black', 'side-view'],
-    uploadedAt: '2024-02-03T10:00:00Z',
+    uploadedAt: '2026-02-03T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-03T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-03T10:00:00Z' }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 4 — Adidas Samba OG (published)
-  // ─────────────────────────────────────────
+
   {
     id: "11",
     productId: "4",
@@ -180,10 +173,10 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1539185441755-769473a23570?w=800',
     tags: ['hero', 'white-background', 'catalogue'],
-    uploadedAt: '2024-01-26T10:00:00Z',
+    uploadedAt: '2026-01-26T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-26T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-27T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-26T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-27T09:00:00Z' }
     ]
   },
   {
@@ -196,10 +189,10 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=800',
     tags: ['white', 'side-view', 'variant'],
-    uploadedAt: '2024-01-27T10:00:00Z',
+    uploadedAt: '2026-01-27T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-27T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-28T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-27T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-28T09:00:00Z' }
     ]
   },
   {
@@ -211,15 +204,13 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?w=800',
     tags: ['campaign', 'video', 'street-style'],
-    uploadedAt: '2024-01-28T10:00:00Z',
+    uploadedAt: '2026-01-28T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-28T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-28T10:00:00Z' }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 5 — Adidas Ultraboost 24 (published)
-  // ─────────────────────────────────────────
+  
   {
     id: "14",
     productId: "5",
@@ -229,10 +220,10 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800',
     tags: ['hero', 'boost', 'catalogue'],
-    uploadedAt: '2024-01-11T10:00:00Z',
+    uploadedAt: '2026-01-11T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-11T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-12T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-11T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-12T09:00:00Z' }
     ]
   },
   {
@@ -245,16 +236,13 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800',
     tags: ['black', 'top-view', 'variant'],
-    uploadedAt: '2024-01-12T10:00:00Z',
+    uploadedAt: '2026-01-12T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-12T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-13T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-12T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-13T09:00:00Z' }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 6 — Adidas Tiro Jacket (review)
-  // ─────────────────────────────────────────
   {
     id: "16",
     productId: "6",
@@ -264,9 +252,9 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800',
     tags: ['hero', 'jacket', 'sportswear'],
-    uploadedAt: '2024-02-11T10:00:00Z',
+    uploadedAt: '2026-02-11T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-11T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-11T10:00:00Z' }
     ]
   },
   {
@@ -280,20 +268,18 @@ export const mockAssets: Asset[] = [
     url: 'https://images.unsplash.com/photo-1542060748-10c28b62716f?w=800',
     tags: ['black', 'front-view'],
     rejectionReason: 'Background is not white, please reshoot on white background.',
-    uploadedAt: '2024-02-12T10:00:00Z',
+    uploadedAt: '2026-02-12T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-12T10:00:00Z' },
+      { status: 'pending_review', changedAt: '2026-02-12T10:00:00Z' },
       {
         status: 'rejected',
-        changedAt: '2024-02-13T09:00:00Z',
+        changedAt: '2026-02-13T09:00:00Z',
         reason: 'Background is not white, please reshoot on white background.'
       }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 7 — Adidas Stan Smith (archived)
-  // ─────────────────────────────────────────
+
   {
     id: "18",
     productId: "7",
@@ -326,9 +312,7 @@ export const mockAssets: Asset[] = [
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 8 — Zara Summer Floral Dress (published)
-  // ─────────────────────────────────────────
+
   {
     id: "20",
     productId: "8",
@@ -338,10 +322,10 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800',
     tags: ['hero', 'dress', 'summer'],
-    uploadedAt: '2024-02-06T10:00:00Z',
+    uploadedAt: '2026-02-06T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-06T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-02-07T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-06T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-02-07T09:00:00Z' }
     ]
   },
   {
@@ -354,10 +338,10 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800',
     tags: ['blue', 'full-length', 'variant'],
-    uploadedAt: '2024-02-07T10:00:00Z',
+    uploadedAt: '2026-02-07T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-07T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-02-08T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-07T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-02-08T09:00:00Z' }
     ]
   },
   {
@@ -370,15 +354,13 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1612336307429-8a898d10e223?w=800',
     tags: ['pink', 'full-length', 'variant'],
-    uploadedAt: '2024-02-08T10:00:00Z',
+    uploadedAt: '2026-02-08T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-08T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-08T10:00:00Z' }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 9 — Zara Leather Bag (draft - in progress)
-  // ─────────────────────────────────────────
+
   {
     id: "23",
     productId: "9",
@@ -388,15 +370,13 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800',
     tags: ['hero', 'bag', 'leather'],
-    uploadedAt: '2024-03-02T10:00:00Z',
+    uploadedAt: '2026-03-02T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-03-02T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-03-02T10:00:00Z' }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 11 — Zara Silk Scarf (review)
-  // ─────────────────────────────────────────
+
   {
     id: "24",
     productId: "11",
@@ -406,9 +386,9 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=800',
     tags: ['hero', 'flat-lay', 'scarf'],
-    uploadedAt: '2024-02-21T10:00:00Z',
+    uploadedAt: '2026-02-21T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-21T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-21T10:00:00Z' }
     ]
   },
   {
@@ -419,23 +399,21 @@ export const mockAssets: Asset[] = [
     title: 'Silk Scarf Ivory Close Up',
     description: 'Close up of Zara Silk Scarf in Ivory showing texture and print.',
     status: 'rejected',
-    url: 'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=800',
+    url: 'https://images.unsplash.com/photo-1520903920263-00d872a2d1c9?w=800',
     tags: ['ivory', 'close-up'],
     rejectionReason: 'Image is overexposed, colors are washed out.',
-    uploadedAt: '2024-02-22T10:00:00Z',
+    uploadedAt: '2026-02-22T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-22T10:00:00Z' },
+      { status: 'pending_review', changedAt: '2026-02-22T10:00:00Z' },
       {
         status: 'rejected',
-        changedAt: '2024-02-23T09:00:00Z',
+        changedAt: '2026-02-23T09:00:00Z',
         reason: 'Image is overexposed, colors are washed out.'
       }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 12 — Gucci Horsebit Loafer (published)
-  // ─────────────────────────────────────────
+
   {
     id: "26",
     productId: "12",
@@ -445,10 +423,10 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1573100925118-870b8efc799d?w=800',
     tags: ['hero', 'luxury', 'catalogue'],
-    uploadedAt: '2024-01-21T10:00:00Z',
+    uploadedAt: '2026-01-21T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-21T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-22T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-21T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-22T09:00:00Z' }
     ]
   },
   {
@@ -461,10 +439,10 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800',
     tags: ['black', 'side-view', 'variant'],
-    uploadedAt: '2024-01-22T10:00:00Z',
+    uploadedAt: '2026-01-22T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-22T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-23T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-22T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-23T09:00:00Z' }
     ]
   },
   {
@@ -476,16 +454,13 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800',
     tags: ['care-guide', 'document'],
-    uploadedAt: '2024-01-22T11:00:00Z',
+    uploadedAt: '2026-01-22T11:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-22T11:00:00Z' },
-      { status: 'approved', changedAt: '2024-01-23T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-22T11:00:00Z' },
+      { status: 'approved', changedAt: '2026-01-23T10:00:00Z' }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 14 — Gucci Ace Sneaker (review)
-  // ─────────────────────────────────────────
   {
     id: "29",
     productId: "14",
@@ -495,9 +470,9 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800',
     tags: ['hero', 'luxury', 'sneaker'],
-    uploadedAt: '2024-02-16T10:00:00Z',
+    uploadedAt: '2026-02-16T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-16T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-16T10:00:00Z' }
     ]
   },
   {
@@ -510,15 +485,12 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1511556820780-d912e42b4980?w=800',
     tags: ['white', 'side-view', 'variant'],
-    uploadedAt: '2024-02-17T10:00:00Z',
+    uploadedAt: '2026-02-17T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-17T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-17T10:00:00Z' }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 15 — Gucci Bamboo Mini Bag (archived)
-  // ─────────────────────────────────────────
   {
     id: "31",
     productId: "15",
@@ -551,9 +523,6 @@ export const mockAssets: Asset[] = [
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 16 — J&J Slim Fit Jeans (published)
-  // ─────────────────────────────────────────
   {
     id: "33",
     productId: "16",
@@ -563,10 +532,10 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=800',
     tags: ['hero', 'jeans', 'white-background'],
-    uploadedAt: '2024-01-31T10:00:00Z',
+    uploadedAt: '2026-01-31T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-01-31T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-02-01T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-01-31T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-02-01T09:00:00Z' }
     ]
   },
   {
@@ -579,16 +548,13 @@ export const mockAssets: Asset[] = [
     status: 'approved',
     url: 'https://images.unsplash.com/photo-1555689502-c4b22d76c56f?w=800',
     tags: ['dark-blue', 'front-view', 'variant'],
-    uploadedAt: '2024-02-01T10:00:00Z',
+    uploadedAt: '2026-02-01T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-01T10:00:00Z' },
-      { status: 'approved', changedAt: '2024-02-02T09:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-01T10:00:00Z' },
+      { status: 'approved', changedAt: '2026-02-02T09:00:00Z' }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 17 — J&J Casual Blazer (draft - in progress)
-  // ─────────────────────────────────────────
   {
     id: "35",
     productId: "17",
@@ -598,15 +564,12 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800',
     tags: ['hero', 'blazer', 'white-background'],
-    uploadedAt: '2024-03-06T10:00:00Z',
+    uploadedAt: '2026-03-06T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-03-06T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-03-06T10:00:00Z' }
     ]
   },
 
-  // ─────────────────────────────────────────
-  // Product 18 — J&J Knit Hoodie (review)
-  // ─────────────────────────────────────────
   {
     id: "36",
     productId: "18",
@@ -616,9 +579,9 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800',
     tags: ['hero', 'hoodie', 'white-background'],
-    uploadedAt: '2024-02-26T10:00:00Z',
+    uploadedAt: '2026-02-26T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-26T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-26T10:00:00Z' }
     ]
   },
   {
@@ -631,9 +594,9 @@ export const mockAssets: Asset[] = [
     status: 'pending_review',
     url: 'https://images.unsplash.com/photo-1509942774463-acf339cf87d5?w=800',
     tags: ['grey', 'front-view', 'variant'],
-    uploadedAt: '2024-02-27T10:00:00Z',
+    uploadedAt: '2026-02-27T10:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-27T10:00:00Z' }
+      { status: 'pending_review', changedAt: '2026-02-27T10:00:00Z' }
     ]
   },
   {
@@ -647,12 +610,12 @@ export const mockAssets: Asset[] = [
     url: 'https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?w=800',
     tags: ['black', 'front-view', 'variant'],
     rejectionReason: 'Poor lighting, product details not visible.',
-    uploadedAt: '2024-02-27T11:00:00Z',
+    uploadedAt: '2026-02-27T11:00:00Z',
     statusHistory: [
-      { status: 'pending_review', changedAt: '2024-02-27T11:00:00Z' },
+      { status: 'pending_review', changedAt: '2026-02-27T11:00:00Z' },
       {
         status: 'rejected',
-        changedAt: '2024-02-28T09:00:00Z',
+        changedAt: '2026-02-28T09:00:00Z',
         reason: 'Poor lighting, product details not visible.'
       }
     ]

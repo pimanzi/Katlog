@@ -33,7 +33,6 @@ export function ProductFilters({
 }: ProductFiltersProps) {
   return (
     <div className="space-y-3">
-      {/* Search bar - full width on mobile */}
       <div className="relative w-full">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
         <input
@@ -45,7 +44,7 @@ export function ProductFilters({
         />
       </div>
 
-      {/* Filters - responsive grid */}
+  
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
         <Select value={selectedBrand} onValueChange={onBrandChange}>
           <SelectTrigger size="sm" className="w-full">

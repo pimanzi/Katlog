@@ -75,7 +75,6 @@ export function ProductAssetsSection({ productId }: { productId: string }) {
                 </div>
               )}
 
-              {/* Full-width upload button on mobile */}
               <Button className="w-full sm:hidden" onClick={() => setModalOpen(true)}>
                 <Plus size={14} /> Upload Asset
               </Button>

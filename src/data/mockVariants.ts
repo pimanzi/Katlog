@@ -1,12 +1,7 @@
-// src/data/mockVariants.ts
 import type { Variant } from '@/types/variant.types'
 
 export const mockVariants: Variant[] = [
 
-  // ─────────────────────────────────────────
-  // Product 1 — Nike Air Max 2026 (published)
-  // Footwear → sizes + colors
-  // ─────────────────────────────────────────
   {
     id: "1",
     productId: "1",
@@ -68,10 +63,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-01-16T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 2 — Nike Dri-FIT Training Tee (published)
-  // Clothing → sizes
-  // ─────────────────────────────────────────
   {
     id: "6",
     productId: "2",
@@ -121,10 +112,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-01-21T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 3 — Nike Pro Leggings (review)
-  // Clothing → sizes
-  // ─────────────────────────────────────────
   {
     id: "10",
     productId: "3",
@@ -174,10 +161,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-02-02T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 4 — Adidas Samba OG (published)
-  // Footwear → sizes + colors
-  // ─────────────────────────────────────────
   {
     id: "14",
     productId: "4",
@@ -227,10 +210,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-01-26T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 5 — Adidas Ultraboost 24 (published)
-  // Footwear → sizes + colors
-  // ─────────────────────────────────────────
   {
     id: "18",
     productId: "5",
@@ -268,10 +247,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-01-11T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 6 — Adidas Tiro Training Jacket (review)
-  // Sportswear → sizes + colors
-  // ─────────────────────────────────────────
   {
     id: "21",
     productId: "6",
@@ -309,10 +284,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-02-11T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 7 — Adidas Stan Smith (archived)
-  // Footwear → sizes + colors
-  // ─────────────────────────────────────────
   {
     id: "24",
     productId: "7",
@@ -350,10 +321,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2023-09-02T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 8 — Zara Summer Floral Dress (published)
-  // Clothing → sizes + colors
-  // ─────────────────────────────────────────
   {
     id: "27",
     productId: "8",
@@ -403,9 +370,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-02-06T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 9 — Zara Leather Shoulder Bag (draft - in progress)
-  // ─────────────────────────────────────────
   {
     id: "31",
     productId: "9",
@@ -429,10 +393,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-03-02T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 11 — Zara Silk Scarf (review)
-  // Accessories → colors only
-  // ─────────────────────────────────────────
   {
     id: "33",
     productId: "11",
@@ -470,10 +430,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-02-21T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 12 — Gucci Horsebit Loafer (published)
-  // Footwear → sizes + colors
-  // ─────────────────────────────────────────
   {
     id: "36",
     productId: "12",
@@ -511,10 +467,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-01-21T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 14 — Gucci Ace Sneaker (review)
-  // Footwear → sizes
-  // ─────────────────────────────────────────
   {
     id: "39",
     productId: "14",
@@ -552,10 +504,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-02-16T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 15 — Gucci Bamboo Mini Bag (archived)
-  // Bags → colors
-  // ─────────────────────────────────────────
   {
     id: "42",
     productId: "15",
@@ -581,10 +529,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2023-10-02T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 16 — Jack&Jones Slim Fit Jeans (published)
-  // Clothing → sizes
-  // ─────────────────────────────────────────
   {
     id: "44",
     productId: "16",
@@ -622,9 +566,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-01-31T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 17 — Jack&Jones Casual Blazer (draft - in progress)
-  // ─────────────────────────────────────────
   {
     id: "47",
     productId: "17",
@@ -648,10 +589,6 @@ export const mockVariants: Variant[] = [
     updatedAt: '2026-03-06T10:00:00Z'
   },
 
-  // ─────────────────────────────────────────
-  // Product 18 — Jack&Jones Knit Hoodie (review)
-  // Clothing → sizes + colors
-  // ─────────────────────────────────────────
   {
     id: "49",
     productId: "18",

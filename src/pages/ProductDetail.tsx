@@ -75,7 +75,6 @@ export default function ProductDetail() {
 
   return (
     <div className="p-4 sm:p-6 space-y-5">
-      {/* Header */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 min-w-0">
           <Button
@@ -97,7 +96,6 @@ export default function ProductDetail() {
         </Button>
       </div>
 
-      {/* Full-width content */}
       <ProductInfo product={product} />
 
       <VariantsSection
@@ -109,8 +107,7 @@ export default function ProductDetail() {
       <ProductAssetsSection productId={id!} />
 
       <VariantAssetsSection productId={id!} variants={variants} />
-
-      {/* Readiness + Actions at bottom */}
+      
       {readiness && (
         <div className="flex flex-col md:flex-row gap-5 md:items-start">
           <div className="flex-1 min-w-0">

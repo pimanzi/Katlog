@@ -3,6 +3,13 @@ import { toast } from 'sonner'
 import { variantService } from '@/services/variantService'
 import type { CreateVariantDto, UpdateVariantDto } from '@/types/variant.types'
 
+export function useAllVariants() {
+  return useQuery({
+    queryKey: ['variants'],
+    queryFn: () => variantService.findAll(),
+  })
+}
+
 export function useVariants(productId: string) {
   return useQuery({
     queryKey: ['variants', productId],

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Package, Image, CheckSquare, X, ChevronDown, Plus, List } from 'lucide-react'
+import { LayoutDashboard, Package, Image, X, ChevronDown, Plus, List } from 'lucide-react'
 import Logo from '@/components/ui/Logo'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
@@ -17,7 +17,7 @@ const navItems = [
     ]
   },
   { label: 'Assets', icon: Image, to: '/assets' },
-  { label: 'Review Queue', icon: CheckSquare, to: '/review-queue' },
+
 ]
 
 interface SidebarProps {
