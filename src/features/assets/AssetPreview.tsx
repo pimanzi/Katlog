@@ -8,7 +8,7 @@ export function AssetPreview({ asset }: { asset: Asset }) {
         <img
           src={asset.url}
           alt={asset.title}
-          className="w-full max-h-[480px] object-contain"
+          className="w-full max-h-120 object-contain"
         />
       </div>
     )
@@ -17,7 +17,7 @@ export function AssetPreview({ asset }: { asset: Asset }) {
   if (asset.assetType === 'video') {
     return (
       <div className="rounded-xl overflow-hidden border border-border bg-black">
-        <video src={asset.url} controls className="w-full max-h-[480px]" />
+        <video src={asset.url} controls className="w-full max-h-120" />
       </div>
     )
   }

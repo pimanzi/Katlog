@@ -30,7 +30,7 @@ export function AssetStatusHistory({ history }: { history: StatusHistory[] }) {
           <ol className="relative border-l border-border ml-2 space-y-4">
             {sorted.map((entry, i) => (
               <li key={i} className="pl-5 relative">
-                <span className={`absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full ${DOT_COLOR[entry.status]} ring-2 ring-card`} />
+                <span className={`absolute -left-1.25 top-1.5 w-2.5 h-2.5 rounded-full ${DOT_COLOR[entry.status]} ring-2 ring-card`} />
                 <p className="text-sm font-medium text-text">{EVENT_LABEL[entry.status]}</p>
                 <p className="text-xs text-text-muted mt-0.5">
                   {new Date(entry.changedAt).toLocaleDateString('en-GB', {

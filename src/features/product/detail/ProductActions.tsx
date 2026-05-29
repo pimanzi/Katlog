@@ -1,20 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
-import { productService } from '@/services/productServices'
-import type { ProductWithRelations, ProductStatus } from '@/types/product.types'
+import { useUpdateProductStatus } from '@/hooks/products'
+import type { ProductWithRelations } from '@/types/product.types'
 import type { ReadinessResult } from '@/utils/calculateReadiness'
-
-const STATUS_TOAST: Partial<Record<ProductStatus, string>> = {
-  review:    'Product submitted for review',
-  published: 'Product published',
-  archived:  'Product archived',
-  draft:     'Product restored to draft',
-}
 
 interface Props {
   product: ProductWithRelations
@@ -23,20 +14,12 @@ interface Props {
 
 export function ProductActions({ product, readiness }: Props) {
   const navigate = useNavigate()
-  const queryClient = useQueryClient()
   const [archiveDialogOpen, setArchiveDialogOpen] = useState(false)
+  const updateStatus = useUpdateProductStatus(product.id)
 
-  const updateStatus = useMutation({
-    mutationFn: (status: ProductStatus) =>
-      productService.update(product.id, { status }),
-    onSuccess: (_, status) => {
-      queryClient.invalidateQueries({ queryKey: ['products'] })
-      queryClient.invalidateQueries({ queryKey: ['products', product.id] })
-      toast.success(STATUS_TOAST[status] ?? 'Status updated')
-    },
-    onError: (error: Error) => toast.error(error.message),
-  })
-
+  const handleSubmitForReview = () => updateStatus.mutate('review')
+  const handlePublish = () => updateStatus.mutate('published')
+  const handleRestoreToDraft = () => updateStatus.mutate('draft')
   const handleArchive = () => {
     updateStatus.mutate('archived', {
       onSuccess: () => navigate('/products'),
@@ -59,7 +42,7 @@ export function ProductActions({ product, readiness }: Props) {
                 <Button
                   className="w-full"
                   disabled={!canSubmitForReview || updateStatus.isPending}
-                  onClick={() => updateStatus.mutate('review')}
+                  onClick={handleSubmitForReview}
                 >
                   Submit for Review
                 </Button>
@@ -85,7 +68,7 @@ export function ProductActions({ product, readiness }: Props) {
                 <Button
                   className="w-full"
                   disabled={!canPublish || updateStatus.isPending}
-                  onClick={() => updateStatus.mutate('published')}
+                  onClick={handlePublish}
                 >
                   Publish Product
                 </Button>
@@ -118,7 +101,7 @@ export function ProductActions({ product, readiness }: Props) {
           {status === 'archived' && (
             <Button
               className="w-full"
-              onClick={() => updateStatus.mutate('draft')}
+              onClick={handleRestoreToDraft}
               disabled={updateStatus.isPending}
             >
               Restore to Draft

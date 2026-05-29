@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import AppPagination from '@/components/ui/AppPagination'
 import { Skeleton } from '@/components/ui/skeleton'
 import { AssetFilters } from '@/features/assets/AssetFilters'
 import { AssetCardWithActions } from '@/features/assets/AssetCardWithActions'
@@ -178,31 +179,13 @@ export default function AssetLibrary() {
         </CardContent>
       </Card>
       
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between px-1 text-sm">
-          <span className="text-xs text-text-muted">
-            {(page - 1) * PER_PAGE + 1}–{Math.min(page * PER_PAGE, filtered.length)} of {filtered.length} assets
-          </span>
-          <div className="flex gap-2">
-            <Button
-              size="sm"
-              onClick={() => set('page', String(page - 1), false)}
-              disabled={page === 1}
-              className={page === 1 ? 'bg-primary-light text-primary cursor-not-allowed' : ''}
-            >
-              Previous
-            </Button>
-            <Button
-              size="sm"
-              onClick={() => set('page', String(page + 1), false)}
-              disabled={page === totalPages}
-              className={page === totalPages ? 'bg-primary-light text-primary cursor-not-allowed' : ''}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
-      )}
+      <div className="flex justify-center">
+        <AppPagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={p => set('page', String(p), false)}
+        />
+      </div>
     </div>
   )
 }

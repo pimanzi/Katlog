@@ -1,7 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { productService } from '@/services/productServices'
-import type { CreateProductDto, UpdateProductDto } from '@/types/product.types'
+import type { CreateProductDto, UpdateProductDto, ProductStatus } from '@/types/product.types'
+
+const STATUS_TOAST: Partial<Record<ProductStatus, string>> = {
+  review:    'Product submitted for review',
+  published: 'Product published',
+  archived:  'Product archived',
+  draft:     'Product restored to draft',
+}
 
 export function useProducts() {
   return useQuery({
@@ -39,6 +46,19 @@ export function useUpdateProduct() {
       queryClient.invalidateQueries({ queryKey: ['products'] })
       queryClient.invalidateQueries({ queryKey: ['products', product.id] })
       toast.success('Product updated')
+    },
+    onError: (error: Error) => toast.error(error.message),
+  })
+}
+
+export function useUpdateProductStatus(id: string) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (status: ProductStatus) => productService.update(id, { status }),
+    onSuccess: (_, status) => {
+      queryClient.invalidateQueries({ queryKey: ['products'] })
+      queryClient.invalidateQueries({ queryKey: ['products', id] })
+      toast.success(STATUS_TOAST[status] ?? 'Status updated')
     },
     onError: (error: Error) => toast.error(error.message),
   })
