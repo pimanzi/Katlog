@@ -3,33 +3,17 @@ import { useSearchParams, useNavigate } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from '@/components/ui/pagination'
+import AppPagination from '@/components/ui/AppPagination'
 import { ProductFilters } from '@/features/product/ProductFilters'
 import { ProductTable, type Product } from '@/features/product/ProductTable'
 import { DeleteProductDialog } from '@/features/product/DeleteProductDialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useProducts, useDeleteProduct } from '@/hooks/products'
-import { mockVariants } from '@/data/mockVariants'
-import { mockAssets } from '@/data/mockAssets'
+import { useAssets } from '@/hooks/assets'
+import { useAllVariants } from '@/hooks/variants'
 import { calculateReadiness } from '@/utils/calculateReadiness'
-import type { ProductWithRelations } from '@/types/product.types'
 
 const ITEMS_PER_PAGE = 10
-
-function toTableProduct(p: ProductWithRelations): Product {
-  const variants = mockVariants.filter(v => v.productId === p.id)
-  const assets   = mockAssets.filter(a => a.productId === p.id)
-  const { percentage } = calculateReadiness(p, variants, assets)
-  return {
-    id: p.id,
-    name: p.name,
-    code: p.productCode,
-    brand: p.brand.name,
-    category: p.category.name,
-    status: p.status,
-    readiness: percentage,
-  }
-}
 
 export default function ProductList() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -37,8 +21,12 @@ export default function ProductList() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [productToDelete, setProductToDelete] = useState<Product | null>(null)
 
-  const { data: rawProducts = [], isLoading } = useProducts()
+  const { data: rawProducts = [], isLoading: lP } = useProducts()
+  const { data: allAssets   = [], isLoading: lA } = useAssets()
+  const { data: allVariants = [], isLoading: lV } = useAllVariants()
   const deleteProduct = useDeleteProduct()
+
+  const isLoading = lP || lA || lV
 
   const currentPage = parseInt(searchParams.get('page') || '1', 10)
   const searchTerm = searchParams.get('search') || ''
@@ -76,8 +64,21 @@ export default function ProductList() {
   const products = useMemo(
     () => [...rawProducts]
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-      .map(toTableProduct),
-    [rawProducts]
+      .map(p => {
+        const variants = allVariants.filter(v => v.productId === p.id)
+        const assets   = allAssets.filter(a => a.productId === p.id)
+        const { percentage } = calculateReadiness(p, variants, assets)
+        return {
+          id:       p.id,
+          name:     p.name,
+          code:     p.productCode,
+          brand:    p.brand.name,
+          category: p.category.name,
+          status:   p.status,
+          readiness: percentage,
+        }
+      }),
+    [rawProducts, allVariants, allAssets]
   )
 
   const filteredProducts = useMemo(() => {
@@ -104,55 +105,6 @@ export default function ProductList() {
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE)
-
-  const renderPaginationItems = () => {
-    const items = []
-    const maxVisible = 5
-
-    if (totalPages <= maxVisible) {
-      for (let i = 1; i <= totalPages; i++) {
-        items.push(
-          <PaginationItem key={i}>
-            <PaginationLink onClick={() => goToPage(i)} isActive={currentPage === i} className="cursor-pointer">
-              {i}
-            </PaginationLink>
-          </PaginationItem>
-        )
-      }
-    } else {
-      items.push(
-        <PaginationItem key={1}>
-          <PaginationLink onClick={() => goToPage(1)} isActive={currentPage === 1} className="cursor-pointer">1</PaginationLink>
-        </PaginationItem>
-      )
-
-      if (currentPage > 3) items.push(<PaginationEllipsis key="ellipsis-start" />)
-
-      const start = Math.max(2, currentPage - 1)
-      const end = Math.min(totalPages - 1, currentPage + 1)
-      for (let i = start; i <= end; i++) {
-        items.push(
-          <PaginationItem key={i}>
-            <PaginationLink onClick={() => goToPage(i)} isActive={currentPage === i} className="cursor-pointer">
-              {i}
-            </PaginationLink>
-          </PaginationItem>
-        )
-      }
-
-      if (currentPage < totalPages - 2) items.push(<PaginationEllipsis key="ellipsis-end" />)
-
-      items.push(
-        <PaginationItem key={totalPages}>
-          <PaginationLink onClick={() => goToPage(totalPages)} isActive={currentPage === totalPages} className="cursor-pointer">
-            {totalPages}
-          </PaginationLink>
-        </PaginationItem>
-      )
-    }
-
-    return items
-  }
 
   const handleView = (product: Product) => navigate(`/products/${product.id}`)
   const handleEdit = (product: Product) => navigate(`/products/${product.id}/edit`)
@@ -231,25 +183,13 @@ export default function ProductList() {
         </CardContent>
       </Card>
 
-      {!isLoading && totalPages > 1 && (
+      {!isLoading && (
         <div className="flex justify-center">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() => currentPage > 1 && goToPage(currentPage - 1)}
-                  className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                />
-              </PaginationItem>
-              {renderPaginationItems()}
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() => currentPage < totalPages && goToPage(currentPage + 1)}
-                  className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+          <AppPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={goToPage}
+          />
         </div>
       )}
 

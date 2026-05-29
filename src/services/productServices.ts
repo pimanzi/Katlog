@@ -1,5 +1,3 @@
-// src/services/productService.ts
-
 import { mockProducts } from '@/data/mockProducts'
 import { mockBrands } from '@/data/mockBrands'
 import { mockCategories } from '@/data/mockCategories'

@@ -69,7 +69,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 >
                   <CollapsibleTrigger className="w-full">
                     <div
-                      className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-[#94a3c4] hover:bg-white/5 hover:text-white"
+                      className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-[#94a3c4] hover:bg-white/5 hover:text-white cursor-pointer"
                     >
                       <div className="flex items-center gap-3">
                         <Icon size={18} />
