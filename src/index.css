@@ -46,41 +46,84 @@
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
+
+
+    /* custom colors */
+
+    /* Brand core */
+    --color-primary-dark:   #2563eb;
+    --color-primary-light:  #e8f0fe;
+
+    /* Layout */
+    --color-bg:             #f8faff;
+
+    /* Text */
+    --color-text:           #1a1f2e;
+    --color-text-muted:     #64748b;
+
+    /* Feedback */
+    --color-success:        #22c55e;
+    --color-success-light:  #dcfce7;
+    --color-success-text:   #15803d;
+    --color-error:          #ef4444;
+    --color-error-light:    #fee2e2;
+    --color-error-text:     #b91c1c;
+    --color-warning:        #f59e0b;
+    --color-warning-light:  #fef3c7;
+    --color-warning-text:   #92400e;
+
+    /* Product status */
+    --color-draft:          #64748b;
+    --color-draft-light:    #f1f5f9;
+    --color-review:         #f59e0b;
+    --color-review-light:   #fef3c7;
+    --color-published:      #22c55e;
+    --color-published-light:#dcfce7;
+    --color-archived:       #94a3b8;
+    --color-archived-light: #f8fafc;
+
+    /* Asset status */
+    --color-pending:        #3C83F7;
+    --color-pending-light:  #e8f0fe;
+    --color-approved:       #22c55e;
+    --color-approved-light: #dcfce7;
+    --color-rejected:       #ef4444;
+    --color-rejected-light: #fee2e2;
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
+    --background: #f8faff;
+    --foreground: #1a1f2e;
+    --card: #ffffff;
+    --card-foreground: #1a1f2e;
+    --popover: #ffffff;
+    --popover-foreground: #1a1f2e;
+    --primary: #3C83F7;
+    --primary-foreground: #ffffff;
     --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
+    --secondary-foreground: #1a1f2e;
     --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
+    --muted-foreground: #64748b;
     --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
+    --accent-foreground: #1a1f2e;
     --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
+    --border: #e2eaf7;
+    --input: #e2eaf7;
+    --ring: #3C83F7;
     --chart-1: oklch(0.87 0 0);
     --chart-2: oklch(0.556 0 0);
     --chart-3: oklch(0.439 0 0);
     --chart-4: oklch(0.371 0 0);
     --chart-5: oklch(0.269 0 0);
     --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --sidebar: #1a1f2e;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #3C83F7;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: #3C83F7;
 }
 
 .dark {
@@ -127,4 +170,35 @@
   html {
     @apply font-sans;
     }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+    }
+}
+
+.loader {
+  height: 15px;
+  aspect-ratio: 4;
+  --_g: no-repeat radial-gradient(farthest-side, #3C83F7 90%, #0000);
+  background:
+    var(--_g) left,
+    var(--_g) right;
+  background-size: 25% 100%;
+  display: flex;
+}
+
+.loader::before {
+  content: "";
+  flex: 1;
+  background: inherit;
+  animation: l50 2s infinite;
+}
+
+@keyframes l50 {
+  0%     { transform: translate( 37.5%) rotate(0deg)   }
+  16.67% { transform: translate( 37.5%) rotate(90deg)  }
+  33.33% { transform: translate(-37.5%) rotate(90deg)  }
+  50%    { transform: translate(-37.5%) rotate(180deg) }
+  66.67% { transform: translate(-37.5%) rotate(270deg) }
+  83.33% { transform: translate( 37.5%) rotate(270deg) }
+  100%   { transform: translate( 37.5%) rotate(360deg) }
 }
