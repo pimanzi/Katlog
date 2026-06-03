@@ -61,25 +61,40 @@ export default function ProductList() {
     setSearchParams(newParams)
   }
 
-  const products = useMemo(
-    () => [...rawProducts]
+  const products = useMemo(() => {
+    const variantsByProduct = new Map<string, typeof allVariants>()
+    for (const v of allVariants) {
+      const list = variantsByProduct.get(v.productId) ?? []
+      list.push(v)
+      variantsByProduct.set(v.productId, list)
+    }
+
+    const assetsByProduct = new Map<string, typeof allAssets>()
+    for (const a of allAssets) {
+      const list = assetsByProduct.get(a.productId) ?? []
+      list.push(a)
+      assetsByProduct.set(a.productId, list)
+    }
+
+    return [...rawProducts]
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .map(p => {
-        const variants = allVariants.filter(v => v.productId === p.id)
-        const assets   = allAssets.filter(a => a.productId === p.id)
-        const { percentage } = calculateReadiness(p, variants, assets)
+        const { percentage } = calculateReadiness(
+          p,
+          variantsByProduct.get(p.id) ?? [],
+          assetsByProduct.get(p.id) ?? [],
+        )
         return {
-          id:       p.id,
-          name:     p.name,
-          code:     p.productCode,
-          brand:    p.brand.name,
-          category: p.category.name,
-          status:   p.status,
+          id:        p.id,
+          name:      p.name,
+          code:      p.productCode,
+          brand:     p.brand.name,
+          category:  p.category.name,
+          status:    p.status,
           readiness: percentage,
         }
-      }),
-    [rawProducts, allVariants, allAssets]
-  )
+      })
+  }, [rawProducts, allVariants, allAssets])
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
