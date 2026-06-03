@@ -5,7 +5,7 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="space-y-1">
       <p className="text-xs text-text-muted">{label}</p>
-      <p className="text-sm font-medium text-text">{value}</p>
+      <div className="text-sm font-medium text-text">{value}</div>
     </div>
   )
 }
