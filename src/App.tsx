@@ -12,6 +12,7 @@ const EditProduct     = lazy(() => import('./pages/EditProduct'))
 const AssetLibrary    = lazy(() => import('./pages/AssetLibrary'))
 const AssetDetail     = lazy(() => import('./pages/AssetDetail'))
 const Login           = lazy(() => import('./pages/Login'))
+const NotFound        = lazy(() => import('./pages/NotFound'))
 const ProtectedRoute  = lazy(() => import('./components/authentication/ProtectedRoute'))
 
 function PageLoader() {
@@ -38,7 +39,9 @@ export default function App() {
             <Route path="products/:id/edit"  element={<EditProduct />} />
             <Route path="assets"             element={<AssetLibrary />} />
             <Route path="assets/:id"         element={<AssetDetail />} />
+            <Route path="*"                  element={<NotFound />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       <Toaster richColors position="top-right" theme="light" />

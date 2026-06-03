@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useProducts, useDeleteProduct } from '@/hooks/products'
 import { useAssets } from '@/hooks/assets'
 import { useAllVariants } from '@/hooks/variants'
+import { useDebounce } from '@/hooks/useDebounce'
 import { calculateReadiness } from '@/utils/calculateReadiness'
 
 const ITEMS_PER_PAGE = 10
@@ -30,6 +31,7 @@ export default function ProductList() {
 
   const currentPage = parseInt(searchParams.get('page') || '1', 10)
   const searchTerm = searchParams.get('search') || ''
+  const debouncedSearch = useDebounce(searchTerm, 300)
   const selectedBrand = searchParams.get('brand') || 'all'
   const selectedCategory = searchParams.get('category') || 'all'
   const selectedStatus = searchParams.get('status') || 'all'
@@ -99,8 +101,8 @@ export default function ProductList() {
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const matchesSearch =
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.code.toLowerCase().includes(searchTerm.toLowerCase())
+        product.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        product.code.toLowerCase().includes(debouncedSearch.toLowerCase())
       const matchesBrand = selectedBrand === 'all' || product.brand.toLowerCase() === selectedBrand
       const matchesCategory = selectedCategory === 'all' || product.category.toLowerCase() === selectedCategory
       const matchesStatus = selectedStatus === 'all' || product.status === selectedStatus
@@ -115,7 +117,7 @@ export default function ProductList() {
 
       return matchesSearch && matchesBrand && matchesCategory && matchesStatus && matchesReadiness
     })
-  }, [products, searchTerm, selectedBrand, selectedCategory, selectedStatus, selectedReadiness])
+  }, [products, debouncedSearch, selectedBrand, selectedCategory, selectedStatus, selectedReadiness])
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE

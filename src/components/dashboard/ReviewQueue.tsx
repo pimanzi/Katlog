@@ -55,7 +55,7 @@ export default function ReviewQueue({ items, totalPending, isLoading }: Props) {
         </div>
         <CardAction>
           <button
-            onClick={() => navigate('/review')}
+            onClick={() => navigate('/assets?status=pending_review')}
             className="flex items-center gap-1 text-[11px] font-medium text-primary hover:text-primary-dark transition-colors"
           >
             View all <ArrowRight size={12} />
