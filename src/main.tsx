@@ -16,10 +16,14 @@ const queryClient = new QueryClient({
 })
 
 async function prepare() {
-  if (import.meta.env.DEV) {
-    const { worker } = await import('./mocks/browser')
-    await worker.start({ onUnhandledRequest: 'bypass' })
-  }
+  //  commented it for now since the app needs to use the msw for the netlify deployed app
+  // if (import.meta.env.DEV) {
+  //   const { worker } = await import('./mocks/browser')
+  //   await worker.start({ onUnhandledRequest: 'bypass' })
+  // }
+  const { worker } = await import('./mocks/browser')
+  await worker.start({ onUnhandledRequest: 'bypass' })
+
 }
 
 prepare().then(() => {
