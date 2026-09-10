@@ -23,6 +23,7 @@ export function useCreateVariant() {
   return useMutation({
     mutationFn: (data: CreateVariantDto) => variantService.create(data),
     onSuccess: (variant) => {
+      queryClient.invalidateQueries({ queryKey: ['variants'] })
       queryClient.invalidateQueries({ queryKey: ['variants', variant.productId] })
       toast.success('Variant created')
     },
@@ -36,6 +37,7 @@ export function useUpdateVariant() {
     mutationFn: ({ id, data }: { id: string; data: UpdateVariantDto }) =>
       variantService.update(id, data),
     onSuccess: (variant) => {
+      queryClient.invalidateQueries({ queryKey: ['variants'] })
       queryClient.invalidateQueries({ queryKey: ['variants', variant.productId] })
       toast.success('Variant updated')
     },
@@ -48,6 +50,7 @@ export function useDeleteVariant() {
   return useMutation({
     mutationFn: ({ id }: { id: string; productId: string }) => variantService.delete(id),
     onSuccess: (_, { productId }) => {
+      queryClient.invalidateQueries({ queryKey: ['variants'] })
       queryClient.invalidateQueries({ queryKey: ['variants', productId] })
       toast.success('Variant deleted')
     },

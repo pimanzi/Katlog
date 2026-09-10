@@ -8,7 +8,8 @@ import { AssetFilters } from '@/features/assets/AssetFilters'
 import { AssetCardWithActions } from '@/features/assets/AssetCardWithActions'
 import { useAssets } from '@/hooks/assets'
 import { useProducts } from '@/hooks/products'
-import { mockVariants } from '@/data/mockVariants'
+import { useAllVariants } from '@/hooks/variants'
+import { useDebounce } from '@/hooks/useDebounce'
 
 const PER_PAGE = 12
 
@@ -33,7 +34,8 @@ function isThisMonth(date: Date) {
 export default function AssetLibrary() {
   const [params, setParams] = useSearchParams()
 
-  const query  = params.get('q')      ?? ''
+  const query         = params.get('q') ?? ''
+  const debouncedQuery = useDebounce(query, 300)
   const scope  = (params.get('scope') ?? 'name') as 'name' | 'product' | 'variant' | 'tag'
   const type   = params.get('type')   ?? 'all'
   const status = params.get('status') ?? 'all'
@@ -67,6 +69,7 @@ export default function AssetLibrary() {
 
   const { data: assets = [], isLoading: isLoadingAssets } = useAssets()
   const { data: products = [] }                           = useProducts()
+  const { data: variants = [] }                           = useAllVariants()
 
   const productMap = useMemo(
     () => new Map(products.map(p => [p.id, p.name])),
@@ -74,12 +77,12 @@ export default function AssetLibrary() {
   )
 
   const variantMap = useMemo(
-    () => new Map(mockVariants.map(v => [v.id, v.name])),
-    []
+    () => new Map(variants.map(v => [v.id, v.name])),
+    [variants]
   )
 
   const filtered = useMemo(() => {
-    const q = query.toLowerCase().trim()
+    const q = debouncedQuery.toLowerCase().trim()
 
     return assets.filter(asset => {
       if (q) {
@@ -110,7 +113,7 @@ export default function AssetLibrary() {
 
       return true
     })
-  }, [assets, query, scope, type, status, date, productMap, variantMap])
+  }, [assets, debouncedQuery, scope, type, status, date, productMap, variantMap])
 
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const paginated  = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE)

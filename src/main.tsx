@@ -9,20 +9,31 @@ import { AuthProvider } from './contexts/AuthContext.tsx'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,  // 5 minutes
-      retry: 1,                  
+      staleTime: 1000 * 60 * 5,
+      retry: 1,
     }
   }
 })
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-      <AuthProvider><App /></AuthProvider> 
-      
-    </BrowserRouter>
-    </QueryClientProvider>
-    
-  </StrictMode>,
-)
+async function prepare() {
+  //  commented it for now since the app needs to use the msw for the netlify deployed app
+  // if (import.meta.env.DEV) {
+  //   const { worker } = await import('./mocks/browser')
+  //   await worker.start({ onUnhandledRequest: 'bypass' })
+  // }
+  const { worker } = await import('./mocks/browser')
+  await worker.start({ onUnhandledRequest: 'bypass' })
+
+}
+
+prepare().then(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AuthProvider><App /></AuthProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </StrictMode>,
+  )
+})

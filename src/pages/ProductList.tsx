@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useProducts, useDeleteProduct } from '@/hooks/products'
 import { useAssets } from '@/hooks/assets'
 import { useAllVariants } from '@/hooks/variants'
+import { useDebounce } from '@/hooks/useDebounce'
 import { calculateReadiness } from '@/utils/calculateReadiness'
 
 const ITEMS_PER_PAGE = 10
@@ -30,6 +31,7 @@ export default function ProductList() {
 
   const currentPage = parseInt(searchParams.get('page') || '1', 10)
   const searchTerm = searchParams.get('search') || ''
+  const debouncedSearch = useDebounce(searchTerm, 300)
   const selectedBrand = searchParams.get('brand') || 'all'
   const selectedCategory = searchParams.get('category') || 'all'
   const selectedStatus = searchParams.get('status') || 'all'
@@ -61,31 +63,46 @@ export default function ProductList() {
     setSearchParams(newParams)
   }
 
-  const products = useMemo(
-    () => [...rawProducts]
+  const products = useMemo(() => {
+    const variantsByProduct = new Map<string, typeof allVariants>()
+    for (const v of allVariants) {
+      const list = variantsByProduct.get(v.productId) ?? []
+      list.push(v)
+      variantsByProduct.set(v.productId, list)
+    }
+
+    const assetsByProduct = new Map<string, typeof allAssets>()
+    for (const a of allAssets) {
+      const list = assetsByProduct.get(a.productId) ?? []
+      list.push(a)
+      assetsByProduct.set(a.productId, list)
+    }
+
+    return [...rawProducts]
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .map(p => {
-        const variants = allVariants.filter(v => v.productId === p.id)
-        const assets   = allAssets.filter(a => a.productId === p.id)
-        const { percentage } = calculateReadiness(p, variants, assets)
+        const { percentage } = calculateReadiness(
+          p,
+          variantsByProduct.get(p.id) ?? [],
+          assetsByProduct.get(p.id) ?? [],
+        )
         return {
-          id:       p.id,
-          name:     p.name,
-          code:     p.productCode,
-          brand:    p.brand.name,
-          category: p.category.name,
-          status:   p.status,
+          id:        p.id,
+          name:      p.name,
+          code:      p.productCode,
+          brand:     p.brand.name,
+          category:  p.category.name,
+          status:    p.status,
           readiness: percentage,
         }
-      }),
-    [rawProducts, allVariants, allAssets]
-  )
+      })
+  }, [rawProducts, allVariants, allAssets])
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const matchesSearch =
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.code.toLowerCase().includes(searchTerm.toLowerCase())
+        product.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        product.code.toLowerCase().includes(debouncedSearch.toLowerCase())
       const matchesBrand = selectedBrand === 'all' || product.brand.toLowerCase() === selectedBrand
       const matchesCategory = selectedCategory === 'all' || product.category.toLowerCase() === selectedCategory
       const matchesStatus = selectedStatus === 'all' || product.status === selectedStatus
@@ -100,7 +117,7 @@ export default function ProductList() {
 
       return matchesSearch && matchesBrand && matchesCategory && matchesStatus && matchesReadiness
     })
-  }, [products, searchTerm, selectedBrand, selectedCategory, selectedStatus, selectedReadiness])
+  }, [products, debouncedSearch, selectedBrand, selectedCategory, selectedStatus, selectedReadiness])
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
